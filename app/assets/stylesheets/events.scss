@@ -1,3 +1,25 @@
 // Place all the styles related to the Events controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+.eventlist {
+  max-width: 42rem;
+  margin: 2rem auto;
+
+  &-heading {
+    display: flex;
+    flex-direction: column;
+
+    @media all and (min-width: 400px) {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  &-wrapper {
+    margin: 1rem 0;
+  }
+
+  &-event {
+  }
+}
