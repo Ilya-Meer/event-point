@@ -17,5 +17,6 @@ end
 Event.create(
     topic: "Docker",
     description: "A primer on how to get up and running with Docker",
-    datetime: DateTime.new(2021,2,3,4,5,6)
+    datetime: DateTime.new(2021,2,3,4,5,6),
+    user_id: 1
 )
