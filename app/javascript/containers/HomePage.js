@@ -1,11 +1,12 @@
 import React, { Fragment } from 'react';
-import Header from './Header';
+import { Link } from 'react-router-dom';
+import Header from '../components/Header';
 
 const HomePage = () => (
   <Fragment>
     <Header />
     <h1>
-      Welcome to the Home Page! <a href='/events'>Events</a>
+      Welcome to the Home Page! <Link to='/events'>Events</Link>
     </h1>
   </Fragment>
 );

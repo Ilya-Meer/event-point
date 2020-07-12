@@ -3,17 +3,13 @@
 // of the page.
 
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import ReactDOM from 'react-dom';
-import HomePage from '../components/HomePage';
-import EventList from '../components/EventList';
+import AppRouter from '../routes';
 
 const App = () => (
   <Router>
-    <Switch>
-      <Route exact path='/' component={HomePage} />
-      <Route exact path='/events' component={EventList} />
-    </Switch>
+    <Route path='/' component={AppRouter} />
   </Router>
 );
 

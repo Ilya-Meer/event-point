@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Form from 'react-bootstrap/Form';
@@ -8,15 +9,26 @@ import Button from 'react-bootstrap/Button';
 const Header = () => {
   return (
     <div>
-      <Navbar bg='light' variant='light'>
-        <Navbar.Brand href='/'>L&amp;L</Navbar.Brand>
-        <Nav className='mr-auto'>
-          <Nav.Link href='/events'>Events</Nav.Link>
-        </Nav>
-        <Form inline>
-          <FormControl type='text' placeholder='Search' className='mr-sm-2' />
-          <Button variant='outline-primary'>Search</Button>
-        </Form>
+      <Navbar bg='light' variant='light' expand='md'>
+        <Navbar.Brand as={Link} to='/'>
+          EE
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls='basic-navbar-nav' />
+        <Navbar.Collapse>
+          <Nav className='nav-link-container'>
+            <Nav.Link as={Link} to='/events'>
+              Events
+            </Nav.Link>
+            <Form inline>
+              <FormControl
+                type='text'
+                placeholder='Search'
+                className='mr-sm-2'
+              />
+              <Button variant='outline-primary'>Search</Button>
+            </Form>
+          </Nav>
+        </Navbar.Collapse>
       </Navbar>
     </div>
   );
