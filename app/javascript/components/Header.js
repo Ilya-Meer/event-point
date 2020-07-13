@@ -2,9 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
-import Button from 'react-bootstrap/Button';
 
 const Header = () => {
   return (
@@ -19,14 +16,13 @@ const Header = () => {
             <Nav.Link as={Link} to='/events'>
               Events
             </Nav.Link>
-            <Form inline>
-              <FormControl
-                type='text'
-                placeholder='Search'
-                className='mr-sm-2'
-              />
-              <Button variant='outline-primary'>Search</Button>
-            </Form>
+            <span className='nav-link-divider'>|</span>
+            <Nav.Link as={Link} to='/login'>
+              Login
+            </Nav.Link>
+            <Nav.Link as={Link} to='/register'>
+              Register
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

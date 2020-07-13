@@ -3,7 +3,7 @@ $xsmall-width: 400px;
 $tablet-width: 768px;
 $desktop-width: 1024px;
 
-@include xsmall {
+@mixin xsmall {
   @media (min-width: #{$xsmall-width}) {
     @content;
   }
