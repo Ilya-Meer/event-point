@@ -1,3 +1,18 @@
 // Place all the styles related to the pages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+@import 'mixins';
+
+.page-layout {
+  width: 90%;
+  margin: 5rem 0;
+  @include tablet {
+    width: 80%;
+  }
+}
+
+.homepage-ep-flourish {
+  margin: 0 0.25rem;
+  opacity: 0.2;
+}

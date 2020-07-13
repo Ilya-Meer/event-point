@@ -2,12 +2,12 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 .eventlist {
-  max-width: 42rem;
-  margin: 2rem auto;
-
   &-heading {
+    margin: 2rem 0;
+    width: 100%;
     display: flex;
     flex-direction: column;
+    text-align: center;
 
     @media all and (min-width: 400px) {
       flex-direction: row;

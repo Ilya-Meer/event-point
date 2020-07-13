@@ -1,14 +1,18 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../components/Header';
+import Page from '../components/Page';
 
 const HomePage = () => (
-  <Fragment>
-    <Header />
+  <Page>
     <h1>
-      Welcome to the Home Page! <Link to='/events'>Events</Link>
+      Ev<span className='homepage-ep-flourish'>id</span>ent Point
     </h1>
-  </Fragment>
+    <h3>Welcome to the Evident Point event tracker!</h3>
+    <p>
+      To view, upvote, or schedule events, please <Link to='/login'>login</Link>{' '}
+      or <Link to='/register'>register</Link>.
+    </p>
+  </Page>
 );
 
 export default HomePage;
