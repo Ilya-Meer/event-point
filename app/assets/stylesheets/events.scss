@@ -1,6 +1,8 @@
 // Place all the styles related to the Events controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+@import 'mixins';
+
 .eventlist {
   &-heading {
     margin: 2rem 0;
@@ -9,7 +11,7 @@
     flex-direction: column;
     text-align: center;
 
-    @media all and (min-width: 400px) {
+    @include xsmall {
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
@@ -22,4 +24,20 @@
 
   &-event {
   }
+}
+
+.event-modal {
+  &-form {
+    padding: 0 15px;
+  }
+
+  &-footer {
+    display: flex;
+    justify-content: center !important;
+  }
+}
+
+.form-input-required {
+  margin: 0 3px;
+  color: $error;
 }

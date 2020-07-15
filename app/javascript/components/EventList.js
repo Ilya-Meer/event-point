@@ -1,61 +1,32 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Card from 'react-bootstrap/Card';
-import Header from '../components/Header';
+import EventModal from '../components/EventModal';
+import Event from '../components/Event';
 
-const EventList = (props) => {
+const EventList = ({ events }) => {
+  const [showProposeEvent, setShowProposeEvent] = useState(false);
+
   const renderEvents = () => {
-    const eventsToRender = props.events || [];
-
-    const formatted = eventsToRender.map((event) => (
-      <Card key={event.created_at} className='eventlist-event'>
-        <Card.Body>
-          <Card.Title>{event.topic}</Card.Title>
-          <Card.Text>{event.description}</Card.Text>
-          <Card.Text className='text-muted'>proposed by Celeste</Card.Text>
-          <Card.Text className='text-muted'>
-            added on {event.created_at}
-          </Card.Text>
-        </Card.Body>
-      </Card>
+    const formatted = events.map((event) => (
+      <Event key={event.created_at} event={event} />
     ));
     return formatted;
   };
 
-  const test = (e) => {
-    console.log(props);
-
-    fetch('/events', {
-      method: 'POST',
-      headers: {
-        'X-CSRF-TOKEN': props.authenticityToken,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        event: {
-          topic: 'Test',
-          description: 'A description here',
-        },
-      }),
-    });
-  };
-
   return (
     <Fragment>
-      <Header />
-      <Container className='eventlist'>
-        <div className='eventlist-heading'>
-          <h1>Events</h1>
-          <Button>+ Propose Event</Button>
-        </div>
-        <div className='eventlist-wrapper'>{renderEvents()}</div>
-      </Container>
-
-      <form onSubmit={test} action='/events' method='post'>
-        <button>test</button>
-      </form>
+      <div className='eventlist-heading'>
+        <h3>Proposed Events</h3>
+        <Button onClick={() => setShowProposeEvent(true)}>
+          + Propose Event
+        </Button>
+      </div>
+      <div className='eventlist-wrapper'>{renderEvents()}</div>
+      <EventModal
+        show={showProposeEvent}
+        handleDismiss={() => setShowProposeEvent(false)}
+      />
     </Fragment>
   );
 };
