@@ -1,0 +1,11 @@
+@import 'mixins';
+
+.generic-form {
+  margin: 0 auto;
+  @include xsmall {
+    margin: 3rem 0;
+  }
+  @include tablet {
+    max-width: 50%;
+  }
+}
