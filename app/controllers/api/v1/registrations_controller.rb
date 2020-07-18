@@ -4,6 +4,7 @@ class Api::V1::RegistrationsController < ApplicationController
             email: params[:user][:email],
             password: params[:user][:password],
             password_confirmation: params[:user][:password_confirmation],
+            display_name: params[:user][:display_name]
         )
 
         if user.save 

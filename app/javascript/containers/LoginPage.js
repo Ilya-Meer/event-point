@@ -3,26 +3,29 @@ import { Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Page from '../components/Page';
+import { login } from '../utils/api';
 
 const LoginPage = () => {
-  const [eventState, setEventState] = useState({});
+  const [loginFormState, setLoginFormState] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     const newState = {
-      ...eventState,
+      ...loginFormState,
       [name]: value,
     };
 
-    setEventState(newState);
+    setLoginFormState(newState);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      console.log(eventState);
+      console.log(loginFormState);
+      const res = await login(loginFormState);
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }

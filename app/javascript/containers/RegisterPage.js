@@ -3,26 +3,29 @@ import { Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Page from '../components/Page';
+import { register } from '../utils/api';
 
 const RegisterPage = () => {
-  const [eventState, setEventState] = useState({});
+  const [registerFormState, setRegisterFormState] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     const newState = {
-      ...eventState,
+      ...registerFormState,
       [name]: value,
     };
 
-    setEventState(newState);
+    setRegisterFormState(newState);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      console.log(eventState);
+      console.log(registerFormState);
+      const res = await register(registerFormState);
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }
@@ -57,7 +60,7 @@ const RegisterPage = () => {
           <span className='form-input-required'>*</span>
           <Form.Control
             type='password'
-            name='confirmPassword'
+            name='password_confirmation'
             required
             onChange={handleChange}
           />
@@ -66,7 +69,7 @@ const RegisterPage = () => {
           <Form.Label>Display Name</Form.Label>
           <Form.Control
             type='text'
-            name='displayName'
+            name='display_name'
             onChange={handleChange}
           />
           <Form.Text className='text-muted'>

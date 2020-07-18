@@ -1,3 +1,6 @@
+/**
+ * Base authentication module
+ */
 const APICall = async (url, method, data) => {
   const baseURL = process.env.API_BASE_URL;
 
@@ -8,13 +11,18 @@ const APICall = async (url, method, data) => {
     headers['Content-Type'] = 'application/json';
   }
 
-  await fetch(`${baseURL}${url}`, {
+  const response = await fetch(`${baseURL}${url}`, {
     method,
     headers,
     body: JSON.stringify(data),
   });
+
+  return response;
 };
 
+/**
+ * Events
+ */
 const addEvent = async (eventData) => {
   const headers = {
     'Content-Type': 'application/json',
@@ -24,7 +32,27 @@ const addEvent = async (eventData) => {
 };
 
 const getEvents = async () => {
-  return APICall('/events', 'GET');
+  const res = await APICall('/events', 'GET');
+  return res;
 };
 
-export { addEvent, getEvents };
+/**
+ * Authentication
+ */
+const login = async (user) => {
+  const data = { user };
+
+  return APICall('/sessions', 'POST', data);
+};
+
+const register = async (user) => {
+  const data = { user };
+
+  return APICall('/registrations', 'POST', data);
+};
+
+const checkLoggedIn = async () => {
+  return APICall('/logged_in', 'GET');
+};
+
+export { login, register, addEvent, getEvents, checkLoggedIn };

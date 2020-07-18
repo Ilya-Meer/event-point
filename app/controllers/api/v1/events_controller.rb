@@ -4,6 +4,9 @@ module Api
             def index
                 events = Event.all
 
+                #update last-modified so content is always fresh
+                headers['Last-Modified'] = Time.now.httpdate
+
                 render json: events
             end
         
