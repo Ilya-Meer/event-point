@@ -1,26 +1,25 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React from 'react';
 import Page from '../components/Page';
 import EventList from '../components/EventList';
-import { getEvents } from '../utils/api';
+import useEvents from '../utils/useEvents';
 
 const EventPage = () => {
-  const [events, setEvents] = useState([]);
+  const { data, isLoading, error } = useEvents();
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      const res = await (await getEvents()).json();
-      setEvents(res);
-    };
-
-    fetchEvents();
-  }, []);
+  if (isLoading) {
+    return (
+      <Page>
+        <div>Loading Events...</div>
+      </Page>
+    );
+  }
 
   return (
     <Page>
       <h1>
         Events
         <div>
-          <EventList events={events} />
+          <EventList events={data} />
         </div>
       </h1>
     </Page>
