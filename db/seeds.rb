@@ -10,13 +10,24 @@ require 'faker'
 # Seed db with Users
 5.times do
   display_name = Faker::Name.first_name
-  User.create(display_name: display_name)
+  email = Faker::Internet.email
+  password = Faker::Internet.password
+
+  User.create(email: email, password: password, password_confirmation: password, display_name: display_name)
 end
 
 # Seed db with Events
-Event.create(
-    topic: "Docker",
-    description: "A primer on how to get up and running with Docker",
+5.times do
+  topic = Faker::Lorem.word
+  description = Faker::Lorem.sentence
+
+  user_ids = User.pluck(:id)
+  user_id = rand(user_ids.min..user_ids.max)
+
+  Event.create(
+    topic: topic,
+    description: description,
     datetime: DateTime.new(2021,2,3,4,5,6),
-    user_id: 1
-)
+    owner_id: user_id
+  )
+end
