@@ -3,11 +3,11 @@
 one:
   topic: MyString
   description: MyText
-  votes: 1
   datetime: 2020-06-18 16:41:12
+  owner_id: 1
 
 two:
   topic: MyString
   description: MyText
-  votes: 1
   datetime: 2020-06-18 16:41:12
+  owner_id: 2
