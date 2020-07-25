@@ -10,4 +10,13 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  def register
+    post("/api/v1/registrations", params: { 
+      user: {
+        email: "new_email@test.com",
+        password: "a",
+        password_confirmation: "a" 
+      }
+    })
+  end
 end
