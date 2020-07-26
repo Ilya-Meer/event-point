@@ -4,12 +4,12 @@ import Button from 'react-bootstrap/Button';
 import EventModal from '../components/EventModal';
 import Event from '../components/Event';
 
-const EventList = ({ events }) => {
+const EventList = ({ events, updateEvents, user }) => {
   const [showProposeEvent, setShowProposeEvent] = useState(false);
 
   const renderEvents = () => {
     const formatted = events.map((event) => (
-      <Event key={event.created_at} event={event} />
+      <Event key={event.created_at} user={user} event={event} />
     ));
     return formatted;
   };
@@ -26,6 +26,9 @@ const EventList = ({ events }) => {
       <EventModal
         show={showProposeEvent}
         handleDismiss={() => setShowProposeEvent(false)}
+        user={user}
+        events={events}
+        updateEvents={updateEvents}
       />
     </Fragment>
   );
@@ -33,10 +36,13 @@ const EventList = ({ events }) => {
 
 EventList.propTypes = {
   events: PropTypes.array,
+  updateEvents: PropTypes.func,
+  user: PropTypes.object,
 };
 
 EventList.defaultProps = {
   events: [],
+  user: {},
 };
 
 export default EventList;

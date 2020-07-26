@@ -24,16 +24,23 @@ const APICall = async (url, method, data) => {
  * Events
  */
 const addEvent = async (eventData) => {
-  const headers = {
-    'Content-Type': 'application/json',
-  };
-
-  return APICall('/events', 'POST', headers, eventData);
+  return APICall('/events', 'POST', eventData);
 };
 
 const getEvents = async () => {
   const res = await APICall('/events', 'GET');
   return res;
+};
+
+/**
+ * Voting
+ */
+const addVote = async (payload) => {
+  return APICall('/add_vote', 'POST', payload);
+};
+
+const removeVote = async (payload) => {
+  return APICall('/remove_vote', 'POST', payload);
 };
 
 /**
@@ -55,4 +62,12 @@ const checkLoggedIn = async () => {
   return APICall('/logged_in', 'GET');
 };
 
-export { login, register, addEvent, getEvents, checkLoggedIn };
+export {
+  login,
+  register,
+  addEvent,
+  getEvents,
+  addVote,
+  removeVote,
+  checkLoggedIn,
+};

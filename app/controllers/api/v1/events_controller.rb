@@ -6,6 +6,15 @@ class Api::V1::EventsController < ApplicationController
         with_votes = events.map do |event|
             event_copy = event.as_json
 
+            # fetch event creator info
+            event_owner = User.find(event.owner_id)
+            if event_owner.display_name.present?
+                event_copy["owner"] = event_owner.display_name
+            else
+                event_copy["owner"] = event_owner.email
+            end
+
+            # fetch vote info
             votes = event.votes.map do |vote|
                 user = vote.user
 

@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { addEvent } from '../utils/api';
 
-const EventModal = ({ show, handleDismiss }) => {
+const EventModal = ({ show, handleDismiss, user, events, updateEvents }) => {
   const [eventState, setEventState] = useState({});
 
   const handleChange = (e) => {
@@ -22,8 +22,19 @@ const EventModal = ({ show, handleDismiss }) => {
   const handleAddEvent = async (e) => {
     e.preventDefault();
 
+    const event = {
+      ...eventState,
+      owner_id: user.id,
+    };
+
+    const payload = { event };
+
     try {
-      const res = await addEvent(eventState);
+      const newlyCreated = await addEvent(payload).then((res) => res.json());
+      newlyCreated.owner = user.display_name || user.email;
+      newlyCreated.votes = [];
+
+      updateEvents([...events, newlyCreated]);
       console.log(res);
     } catch (error) {
       console.error(error);
@@ -38,11 +49,11 @@ const EventModal = ({ show, handleDismiss }) => {
       <Modal.Body>Add basic event information</Modal.Body>
       <Form className='event-modal-form' onSubmit={handleAddEvent}>
         <Form.Group controlId='formEventTopic'>
-          <Form.Label>Title</Form.Label>
+          <Form.Label>Topic</Form.Label>
           <span className='form-input-required'>*</span>
           <Form.Control
             type='text'
-            name='title'
+            name='topic'
             required
             onChange={handleChange}
           />
@@ -84,4 +95,7 @@ export default EventModal;
 EventModal.propTypes = {
   show: PropTypes.bool,
   handleDismiss: PropTypes.func,
+  user: PropTypes.object,
+  events: PropTypes.array,
+  updateEvents: PropTypes.func,
 };

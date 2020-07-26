@@ -23,6 +23,7 @@ const AppRouter = () => {
         exact
         path='/events'
         isLoggedIn={logged_in}
+        user={user}
         component={EventPage}
       />
       <PublicRoute
