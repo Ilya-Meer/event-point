@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders without crashing 1`] = `
+<div
+  className="eventlist-event card"
+>
+  <div
+    className="card-body"
+  >
+    <div
+      className="card-title h5"
+    />
+    <p
+      className="card-text"
+    />
+    <p
+      className="text-muted card-text"
+    >
+      proposed by undefined
+    </p>
+    <p
+      className="text-muted card-text"
+    >
+      added on 
+    </p>
+    <div>
+      <h3>
+        Votes: 
+        <span>
+          0
+        </span>
+      </h3>
+    </div>
+    <div>
+      <button
+        onClick={[Function]}
+      >
+        Upvote
+      </button>
+    </div>
+  </div>
+</div>
+`;

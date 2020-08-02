@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Card from 'react-bootstrap/Card';
-import { addVote, removeVote } from '../utils/api';
+import { addVote, removeVote } from '../../utils/api';
 
 const Event = ({ user, event }) => {
   const [voted, setVoted] = useState(false);
