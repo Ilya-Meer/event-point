@@ -35,7 +35,6 @@ const EventModal = ({ show, handleDismiss, user, events, updateEvents }) => {
       newlyCreated.votes = [];
 
       updateEvents([...events, newlyCreated]);
-      console.log(res);
     } catch (error) {
       console.error(error);
     }

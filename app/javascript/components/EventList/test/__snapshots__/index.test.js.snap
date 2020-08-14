@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders without crashing 1`] = `
+Array [
+  <div
+    className="eventlist-heading"
+  >
+    <h3>
+      Proposed Events
+    </h3>
+    <button
+      className="btn btn-primary"
+      disabled={false}
+      onClick={[Function]}
+      type="button"
+    >
+      + Propose Event
+    </button>
+  </div>,
+  <div
+    className="eventlist-wrapper"
+  />,
+]
+`;

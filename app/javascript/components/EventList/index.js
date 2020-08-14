@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
-import EventModal from '../components/EventModal';
-import Event from '../components/Event';
+import EventModal from '../EventModal';
+import Event from '../Event';
 
 const EventList = ({ events, updateEvents, user }) => {
   const [showProposeEvent, setShowProposeEvent] = useState(false);
