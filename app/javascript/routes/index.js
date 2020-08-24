@@ -4,6 +4,7 @@ import HomePage from '../containers/HomePage';
 import LoginPage from '../containers/LoginPage';
 import RegisterPage from '../containers/RegisterPage';
 import EventPage from '../containers/EventPage';
+import SchedulePage from '../containers/SchedulePage';
 import { PublicRoute, ProtectedRoute } from './RouteTypes';
 import useUserState from '../utils/useUserState';
 
@@ -25,6 +26,13 @@ const AppRouter = () => {
         isLoggedIn={logged_in}
         user={user}
         component={EventPage}
+      />
+      <ProtectedRoute
+        exact
+        path='/schedule'
+        isLoggedIn={logged_in}
+        user={user}
+        component={SchedulePage}
       />
       <PublicRoute
         exact

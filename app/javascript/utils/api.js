@@ -33,6 +33,22 @@ const getEvents = async () => {
 };
 
 /**
+ * Schedule
+ */
+const getScheduledEvents = async () => {
+  const res = await APICall('/schedule', 'GET');
+  return res;
+};
+const scheduleEvent = async (eventData) => {
+  const res = await APICall('/schedule_event', 'PATCH', eventData);
+  return res;
+};
+const unscheduleEvent = async (eventData) => {
+  const res = await APICall('/unschedule_event', 'PATCH', eventData);
+  return res;
+};
+
+/**
  * Voting
  */
 const addVote = async (payload) => {
@@ -67,6 +83,9 @@ export {
   register,
   addEvent,
   getEvents,
+  getScheduledEvents,
+  scheduleEvent,
+  unscheduleEvent,
   addVote,
   removeVote,
   checkLoggedIn,

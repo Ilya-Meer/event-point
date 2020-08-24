@@ -16,6 +16,9 @@ const Header = () => {
             <Nav.Link as={Link} to='/events'>
               Events
             </Nav.Link>
+            <Nav.Link as={Link} to='/schedule'>
+              Schedule
+            </Nav.Link>
             <span className='nav-link-divider'>|</span>
             <Nav.Link as={Link} to='/login'>
               Login

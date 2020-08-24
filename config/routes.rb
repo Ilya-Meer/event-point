@@ -6,6 +6,11 @@ Rails.application.routes.draw do
       resources :sessions, only: [:create]
       resources :registrations, only: [:create]
 
+      # event schedule
+      get :schedule, to: "events#event_schedule"
+      patch :schedule_event, to: "events#schedule_event"
+      patch :unschedule_event, to: "events#unschedule_event"
+
       # votes
       post :add_vote, to: "votes#create"
       post :remove_vote, to: "votes#destroy"
