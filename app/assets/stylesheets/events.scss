@@ -19,10 +19,70 @@
   }
 
   &-wrapper {
-    margin: 1rem 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    grid-gap: 1rem;
+    gap: 1rem;
+    justify-items: center;
+    margin: 1rem auto;
+  }
+}
+
+.event {
+  width: 100%;
+  max-width: 500px;
+  padding: 1.5rem;
+  border: 1px solid #aaa;
+
+  &-info {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #aaa;
+
+    &-title {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    &-description {
+      margin: 0 0 1.5rem;
+    }
   }
 
-  &-event {
+  &-add-info {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+
+    &-heading {
+      margin-bottom: 2px;
+      text-transform: uppercase;
+    }
+  }
+
+  &-button-container {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+
+    .upvote-button {
+      border: 1px solid $atb-teal;
+      background-color: $atb-teal;
+    }
+
+    .upvote-button:hover,
+    .upvote-button:focus {
+      border: 1px solid darken($atb-teal, 10%);
+      background-color: darken($atb-teal, 10%);
+    }
+
+    .upvote-button.upvoted {
+      border: 1px solid darken($atb-teal, 15%);
+      background-color: darken($atb-teal, 15%);
+    }
+
+    .modify > button {
+      margin: 0 3px;
+    }
   }
 }
 

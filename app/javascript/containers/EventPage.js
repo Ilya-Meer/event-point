@@ -23,12 +23,10 @@ const EventPage = ({ user }) => {
 
   return (
     <Page>
-      <h1>
-        Events
-        <div>
-          <EventList events={events} updateEvents={setEvents} user={user} />
-        </div>
-      </h1>
+      <h1>Events</h1>
+      <div>
+        <EventList events={events} updateEvents={setEvents} user={user} />
+      </div>
     </Page>
   );
 };

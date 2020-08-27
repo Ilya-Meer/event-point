@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import { addVote, removeVote } from '../../utils/api';
 
 const Event = ({ user, event }) => {
@@ -37,21 +38,35 @@ const Event = ({ user, event }) => {
   };
 
   return (
-    <Card key={event.created_at} className='eventlist-event'>
+    <Card key={event.created_at} className='event'>
       <Card.Body>
-        <Card.Title>{event.topic}</Card.Title>
-        <Card.Text>{event.description}</Card.Text>
-        <Card.Text className='text-muted'>{`proposed by ${event.owner}`}</Card.Text>
-        <Card.Text className='text-muted'>
-          added on {event.created_at}
-        </Card.Text>
-        <div>
-          <h3>
-            Votes: <span>{numVotes}</span>
-          </h3>
+        <div className='event-info'>
+          <h2 className='event-info-title'>{event.topic}</h2>
+          <p className='event-info-description text-muted'>
+            {event.description}
+          </p>
         </div>
-        <div>
-          <button onClick={handleVote}>{!voted ? 'Upvote' : 'Unvote'}</button>
+        <div className='event-add-info'>
+          <div className=''>
+            <p className='event-add-info-heading text-muted'>Votes</p>
+            <p>{numVotes}</p>
+          </div>
+          <div className=''>
+            <p className='event-add-info-heading text-muted'>Suggested By</p>
+            <p>{event.owner}</p>
+          </div>
+        </div>
+        <div className='event-button-container'>
+          <Button
+            onClick={handleVote}
+            className={['upvote-button', `${voted ? 'upvoted' : ''}`].join(' ')}
+          >
+            {!voted ? 'Upvote' : 'Unvote'}
+          </Button>
+          <div className='modify'>
+            <Button variant='secondary'>Edit</Button>
+            <Button variant='danger'>Delete</Button>
+          </div>
         </div>
       </Card.Body>
     </Card>
