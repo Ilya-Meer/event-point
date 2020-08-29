@@ -27,6 +27,10 @@ const addEvent = async (eventData) => {
   return APICall('/events', 'POST', eventData);
 };
 
+const editEvent = async (eventId, eventData) => {
+  return APICall(`/events/${eventId}`, 'PATCH', eventData);
+};
+
 const getEvents = async () => {
   const res = await APICall('/events', 'GET');
   return res;
@@ -82,6 +86,7 @@ export {
   login,
   register,
   addEvent,
+  editEvent,
   getEvents,
   getScheduledEvents,
   scheduleEvent,

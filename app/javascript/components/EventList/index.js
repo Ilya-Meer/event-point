@@ -5,11 +5,23 @@ import EventModal from '../EventModal';
 import Event from '../Event';
 
 const EventList = ({ events, updateEvents, user }) => {
-  const [showProposeEvent, setShowProposeEvent] = useState(false);
+  const [eventToEdit, setEventToEdit] = useState({});
+  const [showEventModal, setShowEventModal] = useState(false);
+
+  const handleEditEvent = (id) => {
+    const toEdit = events.find((event) => event.id === id);
+    setEventToEdit(toEdit);
+    setShowEventModal(true);
+  };
 
   const renderEvents = () => {
     const formatted = events.map((event) => (
-      <Event key={event.created_at} user={user} event={event} />
+      <Event
+        key={event.id}
+        user={user}
+        event={event}
+        handleEditEvent={handleEditEvent}
+      />
     ));
     return formatted;
   };
@@ -18,14 +30,16 @@ const EventList = ({ events, updateEvents, user }) => {
     <Fragment>
       <div className='eventlist-heading'>
         <h3>Proposed Events</h3>
-        <Button onClick={() => setShowProposeEvent(true)}>
-          + Propose Event
-        </Button>
+        <Button onClick={() => setShowEventModal(true)}>+ Propose Event</Button>
       </div>
       <div className='eventlist-wrapper'>{renderEvents()}</div>
       <EventModal
-        show={showProposeEvent}
-        handleDismiss={() => setShowProposeEvent(false)}
+        eventToEdit={eventToEdit}
+        show={showEventModal}
+        handleDismiss={() => {
+          setEventToEdit({});
+          setShowEventModal(false);
+        }}
         user={user}
         events={events}
         updateEvents={updateEvents}

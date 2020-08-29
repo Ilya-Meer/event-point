@@ -3,9 +3,16 @@ import PropTypes from 'prop-types';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { addEvent } from '../utils/api';
+import { addEvent, editEvent } from '../utils/api';
 
-const EventModal = ({ show, handleDismiss, user, events, updateEvents }) => {
+const EventModal = ({
+  show,
+  handleDismiss,
+  user,
+  events,
+  updateEvents,
+  eventToEdit,
+}) => {
   const [eventState, setEventState] = useState({});
 
   const handleChange = (e) => {
@@ -35,6 +42,30 @@ const EventModal = ({ show, handleDismiss, user, events, updateEvents }) => {
       newlyCreated.votes = [];
 
       updateEvents([...events, newlyCreated]);
+      handleDismiss();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleEditEvent = async (e) => {
+    e.preventDefault();
+
+    const payload = { event: eventState };
+
+    try {
+      const edited = await editEvent(eventToEdit.id, payload).then((res) =>
+        res.json()
+      );
+
+      updateEvents(
+        events.map((existingEvent) =>
+          existingEvent.id === edited.id
+            ? Object.assign(existingEvent, edited)
+            : existingEvent
+        )
+      );
+      handleDismiss();
     } catch (error) {
       console.error(error);
     }
@@ -46,7 +77,10 @@ const EventModal = ({ show, handleDismiss, user, events, updateEvents }) => {
         <Modal.Title>Event Information</Modal.Title>
       </Modal.Header>
       <Modal.Body>Add basic event information</Modal.Body>
-      <Form className='event-modal-form' onSubmit={handleAddEvent}>
+      <Form
+        className='event-modal-form'
+        onSubmit={eventToEdit.id ? handleEditEvent : handleAddEvent}
+      >
         <Form.Group controlId='formEventTopic'>
           <Form.Label>Topic</Form.Label>
           <span className='form-input-required'>*</span>
@@ -55,6 +89,7 @@ const EventModal = ({ show, handleDismiss, user, events, updateEvents }) => {
             name='topic'
             required
             onChange={handleChange}
+            defaultValue={eventToEdit.topic}
           />
           <Form.Text className='text-muted'>What's the event about?</Form.Text>
         </Form.Group>
@@ -67,6 +102,7 @@ const EventModal = ({ show, handleDismiss, user, events, updateEvents }) => {
             name='description'
             required
             onChange={handleChange}
+            defaultValue={eventToEdit.description}
           />
           <Form.Text className='text-muted'>
             Provide some more information about the event you're proposing
@@ -78,7 +114,7 @@ const EventModal = ({ show, handleDismiss, user, events, updateEvents }) => {
             type='submit'
             className='event-modal-submit'
           >
-            Propose Event
+            {eventToEdit.id ? 'Edit Event' : 'Propose Event'}
           </Button>
           <Button onClick={handleDismiss} variant='secondary' type='button'>
             Close
@@ -97,4 +133,5 @@ EventModal.propTypes = {
   user: PropTypes.object,
   events: PropTypes.array,
   updateEvents: PropTypes.func,
+  eventToEdit: PropTypes.object,
 };

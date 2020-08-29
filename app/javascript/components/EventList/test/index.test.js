@@ -13,12 +13,14 @@ it('renders without crashing', () => {
 it('renders events properly', () => {
   const events = [
     {
+      id: 1,
       created_at: new Date(new Date() - 10000).toISOString(),
       topic: 'Test Topic 1',
       description: 'Test Description 1',
       votes: [],
     },
     {
+      id: 2,
       created_at: new Date().toISOString(),
       topic: 'Test Topic 2',
       description: 'Test Description 2',
@@ -28,7 +30,7 @@ it('renders events properly', () => {
 
   render(<EventList events={events} />);
 
-  expect(screen.getAllByText(/added on/)).toHaveLength(2);
+  expect(screen.getAllByText(/suggested by/)).toHaveLength(2);
 });
 
 it('opens and closes the event submission modal dialog', () => {

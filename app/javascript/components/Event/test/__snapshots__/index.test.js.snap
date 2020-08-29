@@ -2,41 +2,79 @@
 
 exports[`renders without crashing 1`] = `
 <div
-  className="eventlist-event card"
+  className="event card"
 >
   <div
     className="card-body"
   >
     <div
-      className="card-title h5"
-    />
-    <p
-      className="card-text"
-    />
-    <p
-      className="text-muted card-text"
+      className="event-info"
     >
-      proposed by undefined
-    </p>
-    <p
-      className="text-muted card-text"
-    >
-      added on 
-    </p>
-    <div>
-      <h3>
-        Votes: 
-        <span>
-          0
-        </span>
-      </h3>
+      <h2
+        className="event-info-title"
+      />
+      <p
+        className="event-info-description text-muted"
+      />
     </div>
-    <div>
+    <div
+      className="event-add-info"
+    >
+      <div
+        className=""
+      >
+        <p
+          className="event-add-info-heading text-muted"
+        >
+          Votes
+        </p>
+        <p
+          data-testid="num-votes"
+        >
+          0
+        </p>
+      </div>
+      <div
+        className=""
+      >
+        <p
+          className="event-add-info-heading text-muted"
+        >
+          suggested by
+        </p>
+        <p />
+      </div>
+    </div>
+    <div
+      className="event-button-container"
+    >
       <button
+        className="upvote-button  btn btn-primary"
+        disabled={false}
         onClick={[Function]}
+        type="button"
       >
         Upvote
       </button>
+      <div
+        className="modify"
+      >
+        <button
+          className="btn btn-secondary"
+          disabled={false}
+          onClick={[Function]}
+          type="button"
+        >
+          Edit
+        </button>
+        <button
+          className="btn btn-danger"
+          disabled={false}
+          type="button"
+        >
+          Delete
+        </button>
+      </div>
     </div>
   </div>
 </div>

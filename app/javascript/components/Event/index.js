@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { addVote, removeVote } from '../../utils/api';
 
-const Event = ({ user, event }) => {
+const Event = ({ user, event, handleEditEvent }) => {
   const [voted, setVoted] = useState(false);
   const [numVotes, setNumVotes] = useState(event.votes.length);
 
@@ -49,10 +49,10 @@ const Event = ({ user, event }) => {
         <div className='event-add-info'>
           <div className=''>
             <p className='event-add-info-heading text-muted'>Votes</p>
-            <p>{numVotes}</p>
+            <p data-testid='num-votes'>{numVotes}</p>
           </div>
           <div className=''>
-            <p className='event-add-info-heading text-muted'>Suggested By</p>
+            <p className='event-add-info-heading text-muted'>suggested by</p>
             <p>{event.owner}</p>
           </div>
         </div>
@@ -63,10 +63,17 @@ const Event = ({ user, event }) => {
           >
             {!voted ? 'Upvote' : 'Unvote'}
           </Button>
-          <div className='modify'>
-            <Button variant='secondary'>Edit</Button>
-            <Button variant='danger'>Delete</Button>
-          </div>
+          {event.owner_id === user.id && (
+            <div className='modify'>
+              <Button
+                variant='secondary'
+                onClick={() => handleEditEvent(event.id)}
+              >
+                Edit
+              </Button>
+              <Button variant='danger'>Delete</Button>
+            </div>
+          )}
         </div>
       </Card.Body>
     </Card>
@@ -76,9 +83,11 @@ const Event = ({ user, event }) => {
 export default Event;
 
 Event.propTypes = {
+  user: PropTypes.object,
   event: PropTypes.shape({
     created_at: PropTypes.string,
     topic: PropTypes.string,
     description: PropTypes.string,
   }),
+  handleEditEvent: PropTypes.func,
 };
