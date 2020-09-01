@@ -4,6 +4,7 @@
 
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import 'react-datepicker/dist/react-datepicker.css';
 import ReactDOM from 'react-dom';
 import AppRouter from '../routes';
 

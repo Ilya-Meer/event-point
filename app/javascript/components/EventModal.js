@@ -72,13 +72,13 @@ const EventModal = ({
   };
 
   return (
-    <Modal show={show} onHide={handleDismiss} className='event-modal'>
+    <Modal show={show} onHide={handleDismiss} className='modal'>
       <Modal.Header closeButton>
         <Modal.Title>Event Information</Modal.Title>
       </Modal.Header>
       <Modal.Body>Add basic event information</Modal.Body>
       <Form
-        className='event-modal-form'
+        className='modal-form'
         onSubmit={eventToEdit.id ? handleEditEvent : handleAddEvent}
       >
         <Form.Group controlId='formEventTopic'>
@@ -108,12 +108,8 @@ const EventModal = ({
             Provide some more information about the event you're proposing
           </Form.Text>
         </Form.Group>
-        <Modal.Footer className='event-modal-footer'>
-          <Button
-            variant='primary'
-            type='submit'
-            className='event-modal-submit'
-          >
+        <Modal.Footer className='modal-footer'>
+          <Button variant='primary' type='submit' className='modal-submit'>
             {eventToEdit.id ? 'Edit Event' : 'Propose Event'}
           </Button>
           <Button onClick={handleDismiss} variant='secondary' type='button'>

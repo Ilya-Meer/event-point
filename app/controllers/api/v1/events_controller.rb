@@ -73,7 +73,7 @@ class Api::V1::EventsController < ApplicationController
     end
 
     def event_schedule
-        render json: convert_to_schedule(Event.where.not(datetime: nil))
+        render json: Event.where.not(datetime: nil).select(:id, :datetime, :topic, :created_at).as_json
     end
 
     def schedule_event
@@ -104,22 +104,6 @@ class Api::V1::EventsController < ApplicationController
     end
 
     private
-
-    def convert_to_schedule(events)        
-        formatted_schedule = events.reduce({}) do |acc, event|
-            date = DateTime.parse(event[:datetime].strftime('%F'))
-            
-            if acc.key?(date)
-                acc[date].push(event.as_json)
-            else
-                acc[date] = [event.as_json]
-            end
-
-            acc
-        end
-
-        formatted_schedule
-    end
 
     def retrieve_event(fields)
         fields.each do |field|

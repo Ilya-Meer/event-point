@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getScheduledEvents } from './api';
+import { convertToSchedule } from './date';
 
 const useSchedule = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,7 +12,10 @@ const useSchedule = () => {
       setIsLoading(true);
       try {
         const res = await getScheduledEvents().then((res) => res.json());
-        setSchedule(res);
+
+        const formatted = convertToSchedule(res);
+
+        setSchedule(formatted);
         setIsLoading(false);
       } catch (error) {
         setError(error);

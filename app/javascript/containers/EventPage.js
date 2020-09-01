@@ -25,7 +25,11 @@ const EventPage = ({ user }) => {
     <Page>
       <h1>Events</h1>
       <div>
-        <EventList events={events} updateEvents={setEvents} user={user} />
+        <EventList
+          events={events.filter((event) => !event.datetime)}
+          updateEvents={setEvents}
+          user={user}
+        />
       </div>
     </Page>
   );

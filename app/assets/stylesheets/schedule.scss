@@ -20,3 +20,44 @@
     flex-direction: column;
   }
 }
+
+.scheduled-day {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.25rem;
+  background: $atb-teal;
+  color: #fff;
+  border-radius: 5px;
+}
+
+.scheduled-event {
+  width: 100%;
+  margin: 1rem 0;
+  padding: 0 0.5rem;
+}
+
+.schedule-modal-dropdown {
+  width: 100%;
+  margin-bottom: 1rem;
+  background-color: #fff !important;
+  color: #000 !important;
+  border: 1px solid #000 !important;
+}
+
+.schedule-dropdown-menu {
+  width: 100%;
+}
+
+.schedule-date-input {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 1rem;
+  text-align: center;
+  border: 1px solid #000 !important;
+  border-radius: 5px;
+}
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container input {
+  width: 100%;
+}

@@ -9,3 +9,14 @@
     max-width: 50%;
   }
 }
+
+.modal {
+  &-form {
+    padding: 0 15px;
+  }
+
+  &-footer {
+    display: flex;
+    justify-content: center !important;
+  }
+}
