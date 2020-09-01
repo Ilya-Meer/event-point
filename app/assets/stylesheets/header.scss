@@ -14,3 +14,13 @@
     margin: 0 1rem;
   }
 }
+
+.nav-logout-button {
+  color: rgba(0, 0, 0, 0.5);
+  background: none;
+  border: none;
+
+  &:hover {
+    color: rgba(0, 0, 0, 0.7);
+  }
+}

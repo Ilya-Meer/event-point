@@ -21,7 +21,7 @@ const HomePage = ({ isLoggedIn, user }) => {
     <Fragment>
       <h3>Welcome to the Evident Point event tracker!</h3>
       <p>
-        To view, upvote, or schedule events, please{' '}
+        To view, upvote, create, or schedule events, please{' '}
         <Link to='/login'>login</Link> or <Link to='/register'>register</Link>.
       </p>
     </Fragment>

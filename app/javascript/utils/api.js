@@ -78,6 +78,10 @@ const register = async (user) => {
   return APICall('/registrations', 'POST', data);
 };
 
+const logout = async () => {
+  return APICall('/logout', 'DELETE');
+};
+
 const checkLoggedIn = async () => {
   return APICall('/logged_in', 'GET');
 };
@@ -85,6 +89,7 @@ const checkLoggedIn = async () => {
 export {
   login,
   register,
+  logout,
   addEvent,
   editEvent,
   getEvents,

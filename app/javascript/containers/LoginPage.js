@@ -23,7 +23,6 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      console.log(loginFormState);
       const res = await login(loginFormState);
       window.location.reload();
     } catch (error) {

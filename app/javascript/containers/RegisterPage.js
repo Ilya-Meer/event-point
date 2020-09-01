@@ -23,7 +23,6 @@ const RegisterPage = () => {
     e.preventDefault();
 
     try {
-      console.log(registerFormState);
       const res = await register(registerFormState);
       window.location.reload();
     } catch (error) {
