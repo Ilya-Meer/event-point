@@ -3,8 +3,12 @@ import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import EventModal from '../EventModal';
 import Event from '../Event';
+import { deleteEvent } from '../../utils/api';
+import { SORTING_FILTERS, sortEvents } from '../../utils/sort';
 
 const EventList = ({ events, updateEvents, user }) => {
+  const [sortingFilter, setSortingFilter] = useState(SORTING_FILTERS.date);
+
   const [eventToEdit, setEventToEdit] = useState({});
   const [showEventModal, setShowEventModal] = useState(false);
 
@@ -15,7 +19,9 @@ const EventList = ({ events, updateEvents, user }) => {
   };
 
   const renderEvents = () => {
-    const formatted = events.map((event) => (
+    const sorted = sortEvents(sortingFilter, events);
+
+    const formatted = sorted.map((event) => (
       <Event
         key={event.id}
         user={user}
@@ -23,6 +29,7 @@ const EventList = ({ events, updateEvents, user }) => {
         handleEditEvent={handleEditEvent}
       />
     ));
+
     return formatted;
   };
 
