@@ -70,6 +70,7 @@ exports[`renders without crashing 1`] = `
         <button
           className="btn btn-danger"
           disabled={false}
+          onClick={[Function]}
           type="button"
         >
           Delete

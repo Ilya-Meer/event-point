@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { addVote, removeVote } from '../../utils/api';
 
-const Event = ({ user, event, handleEditEvent }) => {
+const Event = ({ user, event, handleEditEvent, handleDeleteEvent }) => {
   const [voted, setVoted] = useState(false);
   const [numVotes, setNumVotes] = useState(event.votes.length);
 
@@ -71,7 +71,12 @@ const Event = ({ user, event, handleEditEvent }) => {
               >
                 Edit
               </Button>
-              <Button variant='danger'>Delete</Button>
+              <Button
+                variant='danger'
+                onClick={() => handleDeleteEvent(event.id)}
+              >
+                Delete
+              </Button>
             </div>
           )}
         </div>
@@ -90,4 +95,5 @@ Event.propTypes = {
     description: PropTypes.string,
   }),
   handleEditEvent: PropTypes.func,
+  handleDeleteEvent: PropTypes.func,
 };

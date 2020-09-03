@@ -18,6 +18,15 @@ const EventList = ({ events, updateEvents, user }) => {
     setShowEventModal(true);
   };
 
+  const handleDeleteEvent = async (id) => {
+    try {
+      await deleteEvent(id);
+      updateEvents(events.filter((event) => event.id !== id));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const renderEvents = () => {
     const sorted = sortEvents(sortingFilter, events);
 
@@ -27,6 +36,7 @@ const EventList = ({ events, updateEvents, user }) => {
         user={user}
         event={event}
         handleEditEvent={handleEditEvent}
+        handleDeleteEvent={handleDeleteEvent}
       />
     ));
 

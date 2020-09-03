@@ -23,6 +23,11 @@ const APICall = async (url, method, data) => {
 /**
  * Events
  */
+const getEvents = async () => {
+  const res = await APICall('/events', 'GET');
+  return res;
+};
+
 const addEvent = async (eventData) => {
   return APICall('/events', 'POST', eventData);
 };
@@ -31,9 +36,8 @@ const editEvent = async (eventId, eventData) => {
   return APICall(`/events/${eventId}`, 'PATCH', eventData);
 };
 
-const getEvents = async () => {
-  const res = await APICall('/events', 'GET');
-  return res;
+const deleteEvent = async (eventId) => {
+  return APICall(`/events/${eventId}`, 'DELETE');
 };
 
 /**
@@ -90,9 +94,10 @@ export {
   login,
   register,
   logout,
+  getEvents,
   addEvent,
   editEvent,
-  getEvents,
+  deleteEvent,
   getScheduledEvents,
   scheduleEvent,
   unscheduleEvent,
