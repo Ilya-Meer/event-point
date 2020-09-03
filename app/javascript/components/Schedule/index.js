@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { format } from 'date-fns';
 import Button from 'react-bootstrap/Button';
 import ScheduleModal from '../ScheduleModal';
 import { scheduleEvent, getScheduledEvents } from '../../utils/api';
@@ -13,6 +14,9 @@ const renderDay = (scheduledDay, eventsForDay) => {
         {eventsForDay.map((event) => (
           <li key={event.created_at} className='scheduled-event'>
             {event.topic}
+            <span className='scheduled-event-time'>
+              ----- {`(${format(new Date(event.datetime), 'h:mm aa')})`}
+            </span>
           </li>
         ))}
       </ul>

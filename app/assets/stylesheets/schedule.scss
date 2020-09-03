@@ -34,6 +34,11 @@
   width: 100%;
   margin: 1rem 0;
   padding: 0 0.5rem;
+
+  &-time {
+    font-style: italic;
+    margin-left: 5px;
+  }
 }
 
 .schedule-modal-dropdown {
