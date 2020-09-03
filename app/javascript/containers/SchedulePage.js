@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Page from '../components/Page';
 import Schedule from '../components/Schedule';
@@ -31,6 +32,11 @@ const SchedulePage = ({ user }) => {
   return (
     <Page>
       <h1>Schedule</h1>
+      <p>
+        Schedule an event from the list of existing events. To propose a new
+        event, or vote on an existing event, visit the{' '}
+        <Link to='/events'>events</Link> page.
+      </p>
       <div>
         <Schedule
           allEvents={allEvents.filter((event) => !event.datetime)}
