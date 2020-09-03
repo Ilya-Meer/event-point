@@ -1,5 +1,5 @@
 {
-  "name": "lunch_and_learn",
+  "name": "event_point",
   "private": true,
   "dependencies": {
     "@babel/preset-react": "^7.10.1",
