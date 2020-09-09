@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import Overlay from 'react-bootstrap/Overlay';
+import Tooltip from 'react-bootstrap/Tooltip';
 import { addVote, removeVote } from '../../utils/api';
 
 const Event = ({ user, event, handleEditEvent, handleDeleteEvent }) => {
   const [voted, setVoted] = useState(false);
   const [numVotes, setNumVotes] = useState(event.votes.length);
+  const [showVotes, setShowVotes] = useState(false);
+  const votesTooltipRef = useRef(null);
 
   useEffect(() => {
     const voters = event.votes.map((v) => v.user_id);
@@ -37,6 +41,38 @@ const Event = ({ user, event, handleEditEvent, handleDeleteEvent }) => {
     setVoted(!voted);
   };
 
+  const renderVoterInfo = () => {
+    const defaultMessage = 'No votes yet';
+
+    // Nobody has voted, current user's vote has not been added to local state
+    if (!voted && !event.votes.length) {
+      return defaultMessage;
+    }
+
+    // User has unvoted, vote object still exists
+    // but local state has been updated
+    if (
+      !voted &&
+      event.votes.length === 1 &&
+      event.votes[0].user_id === user.id
+    ) {
+      return defaultMessage;
+    }
+
+    // Get user info from votes array
+    const voterInfo = event.votes
+      .filter((voteObj) => voteObj.user_id !== user.id)
+      .map((voteObj) => voteObj.display_name || voteObj.email);
+
+    // If local state indicates current user has voted
+    // Add 'You'
+    if (voted) {
+      voterInfo.push('You');
+    }
+
+    return voterInfo.join(', ');
+  };
+
   return (
     <Card key={event.created_at} className='event'>
       <Card.Body>
@@ -47,10 +83,21 @@ const Event = ({ user, event, handleEditEvent, handleDeleteEvent }) => {
           </p>
         </div>
         <div className='event-add-info'>
-          <div className=''>
+          <div
+            ref={votesTooltipRef}
+            onMouseEnter={() => setShowVotes(true)}
+            onMouseLeave={() => setShowVotes(false)}
+          >
             <p className='event-add-info-heading text-muted'>Votes</p>
             <p data-testid='num-votes'>{numVotes}</p>
           </div>
+          <Overlay
+            target={votesTooltipRef.current}
+            show={showVotes}
+            placement='right'
+          >
+            {(props) => <Tooltip {...props}>{renderVoterInfo()}</Tooltip>}
+          </Overlay>
           <div className=''>
             <p className='event-add-info-heading text-muted'>suggested by</p>
             <p>{event.owner}</p>
