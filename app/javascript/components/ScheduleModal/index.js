@@ -1,4 +1,10 @@
-import React, { Fragment, useState, forwardRef, useRef } from 'react';
+import React, {
+  Fragment,
+  useState,
+  forwardRef,
+  useRef,
+  useEffect,
+} from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import Modal from 'react-bootstrap/Modal';
@@ -10,15 +16,22 @@ const ScheduleModal = ({
   show,
   handleDismiss,
   events,
+  eventToReschedule,
   handleScheduleEvent,
+  handleUnscheduleEvent,
 }) => {
   const [selectedEventState, setSelectedEventState] = useState({
     datetime: new Date(),
+    event_id: eventToReschedule.id,
   });
 
   const handleChangeScheduledEvent = (key, value) => {
     setSelectedEventState({ ...selectedEventState, [key]: value });
   };
+
+  useEffect(() => {
+    handleChangeScheduledEvent('event_id', eventToReschedule.id);
+  }, [eventToReschedule]);
 
   const ref = useRef(null);
 
@@ -38,6 +51,10 @@ const ScheduleModal = ({
   ));
 
   const renderDropdownDisplay = () => {
+    if (eventToReschedule.topic) {
+      return eventToReschedule.topic;
+    }
+
     const defaultMessage = 'Select Event';
 
     if (!events || !events.length) {
@@ -74,6 +91,7 @@ const ScheduleModal = ({
           <Dropdown.Toggle
             className='schedule-modal-dropdown'
             data-testid='schedule-dropdown-toggle'
+            disabled={!!eventToReschedule.id}
           >
             {renderDropdownDisplay()}
           </Dropdown.Toggle>
@@ -107,8 +125,18 @@ const ScheduleModal = ({
             className='modal-submit'
             data-testid='schedule-event-button'
           >
-            Schedule Event
+            {eventToReschedule.id ? 'Reschedule Event' : 'Schedule Event'}
           </Button>
+          {eventToReschedule.id && (
+            <Button
+              variant='danger'
+              className='modal-submit'
+              data-testid='schedule-event-button'
+              onClick={() => handleUnscheduleEvent(eventToReschedule.id)}
+            >
+              Unschedule
+            </Button>
+          )}
           <Button onClick={handleDismiss} variant='secondary' type='button'>
             Close
           </Button>
@@ -124,5 +152,7 @@ ScheduleModal.propTypes = {
   show: PropTypes.bool,
   handleDismiss: PropTypes.func,
   events: PropTypes.array,
+  eventToReschedule: PropTypes.object,
   handleScheduleEvent: PropTypes.func,
+  handleUnscheduleEvent: PropTypes.func,
 };

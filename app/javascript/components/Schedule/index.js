@@ -3,26 +3,13 @@ import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import Button from 'react-bootstrap/Button';
 import ScheduleModal from '../ScheduleModal';
-import { scheduleEvent, getScheduledEvents } from '../../utils/api';
+import {
+  getScheduledEvents,
+  getEvents,
+  scheduleEvent,
+  unscheduleEvent,
+} from '../../utils/api';
 import { convertToSchedule } from '../../utils/date';
-
-const renderDay = (scheduledDay, eventsForDay) => {
-  return (
-    <Fragment key={scheduledDay}>
-      <div className='scheduled-day'>{scheduledDay}</div>
-      <ul>
-        {eventsForDay.map((event) => (
-          <li key={event.created_at} className='scheduled-event'>
-            {event.topic}
-            <span className='scheduled-event-time'>
-              ----- {`(${format(new Date(event.datetime), 'h:mm aa')})`}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </Fragment>
-  );
-};
 
 const Schedule = ({
   allEvents,
@@ -31,12 +18,54 @@ const Schedule = ({
   updateAllEvents,
 }) => {
   const [showScheduleModal, setShowScheduleModal] = useState(false);
-
   const [formattedSchedule, setFormattedSchedule] = useState([]);
+  const [eventToReschedule, setEventToReschedule] = useState({});
+
+  const handleReschedule = (id) => {
+    let eventArr = [];
+
+    for (let arr of Object.values(scheduledEvents)) {
+      eventArr = eventArr.concat(arr);
+    }
+
+    setEventToReschedule(eventArr.find((event) => event.id === id));
+    setShowScheduleModal(true);
+  };
+
+  const renderDay = (scheduledDay, eventsForDay) => {
+    return (
+      <Fragment key={scheduledDay}>
+        <div className='scheduled-day'>{scheduledDay}</div>
+        <ul>
+          {eventsForDay.map((event) => (
+            <li key={event.created_at} className='scheduled-event'>
+              <div>
+                {event.topic}
+                <span className='scheduled-event-time'>
+                  ----- {`(${format(new Date(event.datetime), 'h:mm aa')})`}
+                </span>
+              </div>
+              <Button
+                variant='secondary'
+                onClick={() => handleReschedule(event.id)}
+              >
+                Reschedule
+              </Button>
+            </li>
+          ))}
+        </ul>
+      </Fragment>
+    );
+  };
 
   useMemo(() => {
     let formatted = [];
-    for (let [date, events] of Object.entries(scheduledEvents)) {
+
+    const scheduleItems = Object.entries(scheduledEvents).sort((prev, next) => {
+      return new Date(prev[0]) - new Date(next[0]);
+    });
+
+    for (let [date, events] of scheduleItems) {
       formatted.push(renderDay(date, events));
     }
 
@@ -69,6 +98,23 @@ const Schedule = ({
     }
   };
 
+  const handleUnscheduleEvent = async (event_id) => {
+    try {
+      await unscheduleEvent({ event_id });
+
+      const updated = await getScheduledEvents().then((res) => res.json());
+      updateSchedule(convertToSchedule(updated));
+
+      const eventList = await getEvents().then((res) => res.json());
+      updateAllEvents(eventList);
+
+      setEventToReschedule({});
+      setShowScheduleModal(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Fragment>
       <div className='schedule-heading'>
@@ -80,9 +126,14 @@ const Schedule = ({
       <div className='schedule-wrapper'>{formattedSchedule}</div>
       <ScheduleModal
         show={showScheduleModal}
-        handleDismiss={() => setShowScheduleModal(false)}
+        handleDismiss={() => {
+          setEventToReschedule({});
+          setShowScheduleModal(false);
+        }}
         events={allEvents}
+        eventToReschedule={eventToReschedule}
         handleScheduleEvent={handleScheduleEvent}
+        handleUnscheduleEvent={handleUnscheduleEvent}
       />
     </Fragment>
   );

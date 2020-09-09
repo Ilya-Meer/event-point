@@ -31,13 +31,25 @@
 }
 
 .scheduled-event {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   margin: 1rem 0;
-  padding: 0 0.5rem;
+  padding-left: 0.5rem;
+  position: relative;
 
   &-time {
     font-style: italic;
     margin-left: 5px;
+  }
+
+  &::before {
+    content: '•';
+    display: inline-block;
+    position: absolute;
+    left: -10px;
+    font-size: 20px;
   }
 }
 
