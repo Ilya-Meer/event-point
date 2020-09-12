@@ -21,7 +21,8 @@ exports[`renders without crashing 1`] = `
       className="event-add-info"
     >
       <div
-        className=""
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <p
           className="event-add-info-heading text-muted"
