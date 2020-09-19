@@ -1,16 +1,19 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { addVote, removeVote } from '../../utils/api';
+import { FlashContext } from '../../contexts/FlashContext';
+import { isSuccessfulResponse, errorMessages } from '../../utils/error';
 
 const Event = ({ user, event, handleEditEvent, handleDeleteEvent }) => {
   const [voted, setVoted] = useState(false);
   const [numVotes, setNumVotes] = useState(event.votes.length);
   const [showVotes, setShowVotes] = useState(false);
   const votesTooltipRef = useRef(null);
+  const { setMessage } = useContext(FlashContext);
 
   useEffect(() => {
     const voters = event.votes.map((v) => v.user_id);
@@ -29,13 +32,25 @@ const Event = ({ user, event, handleEditEvent, handleDeleteEvent }) => {
     try {
       if (voted) {
         const res = await removeVote(payload);
+
+        if (!isSuccessfulResponse(res)) {
+          throw new Error(errorMessages.vote);
+        }
+
         setNumVotes(numVotes - 1);
       } else {
         const res = await addVote(payload);
+
+        if (!isSuccessfulResponse(res)) {
+          throw new Error(errorMessages.vote);
+        }
+
         setNumVotes(numVotes + 1);
       }
     } catch (error) {
       console.error(error);
+      setMessage({ text: error.message, variant: 'danger' });
+      return;
     }
 
     setVoted(!voted);
