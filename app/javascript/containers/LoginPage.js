@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Page from '../components/Page';
 import { login } from '../utils/api';
+import { errorMessages, isSuccessfulResponse } from '../utils/error';
+import { FlashContext } from '../contexts/FlashContext';
 
 const LoginPage = () => {
   const [loginFormState, setLoginFormState] = useState({});
+  const { setMessage } = useContext(FlashContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,9 +27,15 @@ const LoginPage = () => {
 
     try {
       const res = await login(loginFormState);
+
+      if (!isSuccessfulResponse(res)) {
+        throw new Error(errorMessages.login);
+      }
+
       window.location.reload();
     } catch (error) {
       console.error(error);
+      setMessage({ text: error.message, variant: 'danger' });
     }
   };
 
