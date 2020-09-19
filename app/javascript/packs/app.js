@@ -6,12 +6,15 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import ReactDOM from 'react-dom';
+import { FlashProvider } from '../contexts/FlashContext';
 import AppRouter from '../routes';
 
 const App = () => (
-  <Router>
-    <Route path='/' component={AppRouter} />
-  </Router>
+  <FlashProvider>
+    <Router>
+      <Route path='/' component={AppRouter} />
+    </Router>
+  </FlashProvider>
 );
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -1,0 +1,10 @@
+.flash-message {
+  width: auto;
+  min-width: 300px;
+  position: fixed !important;
+  top: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+}
