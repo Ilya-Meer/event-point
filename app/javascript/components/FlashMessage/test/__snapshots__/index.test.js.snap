@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders without crashing 1`] = `
+<div
+  className="fade flash-message alert alert-danger show"
+  role="alert"
+>
+  An error occurred
+</div>
+`;

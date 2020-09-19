@@ -1,13 +1,16 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import EventModal from '../EventModal';
 import Event from '../Event';
 import { deleteEvent } from '../../utils/api';
+import { FlashContext } from '../../contexts/FlashContext';
 import { SORTING_FILTERS, sortEvents } from '../../utils/sort';
+import { isSuccessfulResponse, errorMessages } from '../../utils/error';
 
 const EventList = ({ events, updateEvents, user }) => {
   const [sortingFilter, setSortingFilter] = useState(SORTING_FILTERS.date);
+  const { setMessage } = useContext(FlashContext);
 
   const [eventToEdit, setEventToEdit] = useState({});
   const [showEventModal, setShowEventModal] = useState(false);
@@ -20,10 +23,16 @@ const EventList = ({ events, updateEvents, user }) => {
 
   const handleDeleteEvent = async (id) => {
     try {
-      await deleteEvent(id);
+      const res = await deleteEvent(id);
+
+      if (!isSuccessfulResponse(res)) {
+        throw new Error(errorMessages.deleteEvent);
+      }
+
       updateEvents(events.filter((event) => event.id !== id));
     } catch (error) {
       console.error(error);
+      setMessage({ text: error.message, variant: 'danger' });
     }
   };
 

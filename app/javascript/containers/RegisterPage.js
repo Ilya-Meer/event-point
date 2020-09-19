@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { FlashContext } from '../contexts/FlashContext';
 import Page from '../components/Page';
 import { register } from '../utils/api';
+import { errorMessages, isSuccessfulResponse } from '../utils/error';
 
 const RegisterPage = () => {
   const [registerFormState, setRegisterFormState] = useState({});
+  const { setMessage } = useContext(FlashContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,9 +27,15 @@ const RegisterPage = () => {
 
     try {
       const res = await register(registerFormState);
+
+      if (!isSuccessfulResponse(res)) {
+        throw new Error(errorMessages.register);
+      }
+
       window.location.reload();
     } catch (error) {
       console.error(error);
+      setMessage({ text: error.message, variant: 'danger' });
     }
   };
 

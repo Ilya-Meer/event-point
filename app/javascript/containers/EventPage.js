@@ -1,18 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Page from '../components/Page';
 import EventList from '../components/EventList';
 import useEvents from '../utils/useEvents';
+import { FlashContext } from '../contexts/FlashContext';
 
 const EventPage = ({ user }) => {
   const { data, isLoading, error } = useEvents();
+  const { setMessage } = useContext(FlashContext);
 
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
     setEvents(data);
   }, [data]);
+
+  useEffect(() => {
+    if (error) {
+      setMessage({ text: error.message, variant: 'danger' });
+    }
+  }, [error]);
 
   if (isLoading) {
     return (
