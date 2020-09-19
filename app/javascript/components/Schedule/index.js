@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useMemo } from 'react';
+import React, { Fragment, useState, useMemo, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import Button from 'react-bootstrap/Button';
@@ -10,6 +10,8 @@ import {
   unscheduleEvent,
 } from '../../utils/api';
 import { convertToSchedule } from '../../utils/date';
+import { isSuccessfulResponse, errorMessages } from '../../utils/error';
+import { FlashContext } from '../../contexts/FlashContext';
 
 const Schedule = ({
   allEvents,
@@ -20,6 +22,8 @@ const Schedule = ({
   const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [formattedSchedule, setFormattedSchedule] = useState([]);
   const [eventToReschedule, setEventToReschedule] = useState({});
+
+  const { setMessage } = useContext(FlashContext);
 
   const handleReschedule = (id) => {
     let eventArr = [];
@@ -74,12 +78,21 @@ const Schedule = ({
 
   const handleScheduleEvent = async (eventState) => {
     try {
-      await scheduleEvent({
+      let res = await scheduleEvent({
         ...eventState,
         datetime: new Date(eventState.datetime.toUTCString()),
       });
 
-      const updated = await getScheduledEvents().then((res) => res.json());
+      if (!isSuccessfulResponse(res)) {
+        throw new Error(errorMessages.scheduleEvent);
+      }
+
+      res = await getScheduledEvents();
+      if (!isSuccessfulResponse(res)) {
+        throw new Error(errorMessages.getSchedule);
+      }
+
+      const updated = await res.json();
       updateSchedule(convertToSchedule(updated));
 
       const newEventsArr = allEvents.map((event) => {
@@ -91,27 +104,43 @@ const Schedule = ({
       });
 
       updateAllEvents(newEventsArr);
-
-      setShowScheduleModal(false);
     } catch (error) {
       console.error(error);
+      setMessage({ text: error.message, variant: 'danger' });
+    } finally {
+      setShowScheduleModal(false);
     }
   };
 
   const handleUnscheduleEvent = async (event_id) => {
     try {
-      await unscheduleEvent({ event_id });
+      let res = await unscheduleEvent({ event_id });
+      if (!isSuccessfulResponse(res)) {
+        throw new Error(errorMessages.scheduleEvent);
+      }
 
-      const updated = await getScheduledEvents().then((res) => res.json());
+      res = await getScheduledEvents();
+      if (!isSuccessfulResponse(res)) {
+        throw new Error(errorMessages.getSchedule);
+      }
+
+      const updated = await res.json();
       updateSchedule(convertToSchedule(updated));
 
-      const eventList = await getEvents().then((res) => res.json());
+      res = await getEvents();
+      if (!isSuccessfulResponse(res)) {
+        throw new Error(errorMessages.getSchedule);
+      }
+
+      const eventList = await res.json();
       updateAllEvents(eventList);
 
       setEventToReschedule({});
-      setShowScheduleModal(false);
     } catch (error) {
       console.error(error);
+      setMessage({ text: error.message, variant: 'danger' });
+    } finally {
+      setShowScheduleModal(false);
     }
   };
 
