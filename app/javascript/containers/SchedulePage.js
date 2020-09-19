@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Page from '../components/Page';
 import Schedule from '../components/Schedule';
 import useSchedule from '../utils/useSchedule';
 import useEvents from '../utils/useEvents';
+import { FlashContext } from '../contexts/FlashContext';
 
 const SchedulePage = ({ user }) => {
   const { data: eventData } = useEvents();
@@ -13,6 +14,8 @@ const SchedulePage = ({ user }) => {
   const [scheduledEvents, setSchedule] = useState({});
   const [allEvents, setAllEvents] = useState([]);
 
+  const { setMessage } = useContext(FlashContext);
+
   useEffect(() => {
     setSchedule(scheduleData);
   }, [scheduleData]);
@@ -20,6 +23,12 @@ const SchedulePage = ({ user }) => {
   useEffect(() => {
     setAllEvents(eventData);
   }, [eventData]);
+
+  useEffect(() => {
+    if (error) {
+      setMessage({ text: error.message, variant: 'danger' });
+    }
+  }, [error]);
 
   if (isLoading) {
     return (

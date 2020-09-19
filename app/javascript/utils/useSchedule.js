@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getScheduledEvents } from './api';
 import { convertToSchedule } from './date';
+import { isSuccessfulResponse, errorMessages } from './error';
 
 const useSchedule = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,14 +12,19 @@ const useSchedule = () => {
     const fetchSchedule = async () => {
       setIsLoading(true);
       try {
-        const res = await getScheduledEvents().then((res) => res.json());
+        const res = await getScheduledEvents();
 
-        const formatted = convertToSchedule(res);
+        if (!isSuccessfulResponse(res)) {
+          throw new Error(errorMessages.getSchedule);
+        }
 
+        const scheduleData = await res.json();
+        const formatted = convertToSchedule(scheduleData);
         setSchedule(formatted);
-        setIsLoading(false);
       } catch (error) {
         setError(error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
